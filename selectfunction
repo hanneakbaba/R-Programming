@@ -1,0 +1,82 @@
+library(dplyr)
+
+primates <- filter(msleep, vore == "primate")
+nrow(primates)
+[1] 0
+names(msleep)
+ [1] "name"         "genus"       
+ [3] "vore"         "order"       
+ [5] "conservation" "sleep_total" 
+ [7] "sleep_rem"    "sleep_cycle" 
+ [9] "awake"        "brainwt"     
+[11] "bodywt"      
+head(msleep)
+                        name      genus
+1                    Cheetah   Acinonyx
+2                 Owl monkey      Aotus
+3            Mountain beaver Aplodontia
+4 Greater short-tailed shrew    Blarina
+5                        Cow        Bos
+6           Three-toed sloth   Bradypus
+   vore        order conservation
+1 carni    Carnivora           lc
+2  omni     Primates         <NA>
+3 herbi     Rodentia           nt
+4  omni Soricomorpha           lc
+5 herbi Artiodactyla domesticated
+6 herbi       Pilosa         <NA>
+  sleep_total sleep_rem sleep_cycle awake
+1        12.1        NA          NA  11.9
+2        17.0       1.8          NA   7.0
+3        14.4       2.4          NA   9.6
+4        14.9       2.3   0.1333333   9.1
+5         4.0       0.7   0.6666667  20.0
+6        14.4       2.2   0.7666667   9.6
+  brainwt  bodywt
+1      NA  50.000
+2 0.01550   0.480
+3      NA   1.350
+4 0.00029   0.019
+5 0.42300 600.000
+6      NA   3.850
+unique(msleep$order)
+ [1] "Carnivora"       "Primates"       
+ [3] "Rodentia"        "Soricomorpha"   
+ [5] "Artiodactyla"    "Pilosa"         
+ [7] "Cingulata"       "Hyracoidea"     
+ [9] "Didelphimorphia" "Proboscidea"    
+[11] "Chiroptera"      "Perissodactyla" 
+[13] "Erinaceomorpha"  "Cetacea"        
+[15] "Lagomorpha"      "Diprotodontia"  
+[17] "Monotremata"     "Afrosoricida"   
+[19] "Scandentia"     
+nrow(filter(msleep, order == "Primates"))
+[1] 12
+sum(msleep$order == "Primates")
+[1] 12
+primates_sleep <- select(primates, sleep_total)
+mean(unlist(primates_sleep))
+[1] NaN
+nrow(primates)
+[1] 0
+unique(msleep$order)
+ [1] "Carnivora"       "Primates"       
+ [3] "Rodentia"        "Soricomorpha"   
+ [5] "Artiodactyla"    "Pilosa"         
+ [7] "Cingulata"       "Hyracoidea"     
+ [9] "Didelphimorphia" "Proboscidea"    
+[11] "Chiroptera"      "Perissodactyla" 
+[13] "Erinaceomorpha"  "Cetacea"        
+[15] "Lagomorpha"      "Diprotodontia"  
+[17] "Monotremata"     "Afrosoricida"   
+[19] "Scandentia"     
+sum(msleep$order == "Primates")
+[1] 12
+primates <- msleep[msleep$order == "Primates", ]
+nrow(primates)
+[1] 12
+primates$sleep_total
+ [1] 17.0 10.0 10.9  9.8  8.0  9.5 10.1 11.0
+ [9]  9.7  9.4 11.0  9.6
+mean(primates$sleep_total, na.rm = TRUE)
+[1] 10.5
