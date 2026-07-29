@@ -1,0 +1,7 @@
+install.packages("gapminder")
+library(gapminder)
+data(gapminder)
+
+dat <- subset(gapminder, year == 1952)
+
+mean(dat$lifeExp <= 40)
