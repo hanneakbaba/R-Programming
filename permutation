@@ -27,4 +27,4 @@ null <- replicate(1000, {
 
 # Permutation-derived p-value (two-tailed proportion of null >= observed absolute difference)
 mean(abs(null) >= abs(obs))
-# Output: 0.052
+# Output: 0.053
