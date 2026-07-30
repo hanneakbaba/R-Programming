@@ -1,0 +1,30 @@
+library(dplyr)
+
+# Load data
+url <- "https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/babies.txt"
+filename <- basename(url)
+if(!file.exists(filename)) download(url, destfile=filename)
+babies <- read.table("babies.txt", header=TRUE)
+
+bwt.nonsmoke <- filter(babies, smoke==0) %>% select(bwt) %>% unlist 
+bwt.smoke <- filter(babies, smoke==1) %>% select(bwt) %>% unlist
+
+N <- 10
+set.seed(1)
+nonsmokers <- sample(bwt.nonsmoke, N)
+smokers <- sample(bwt.smoke, N)
+obs <- mean(smokers) - mean(nonsmokers)
+
+dat <- c(smokers, nonsmokers)
+
+set.seed(1)
+null <- replicate(1000, {
+  shuffle <- sample(dat)
+  smokersstar <- shuffle[1:N]
+  nonsmokersstar <- shuffle[(N+1):(2*N)]
+  mean(smokersstar) - mean(nonsmokersstar)
+})
+
+# Permutation-derived p-value (two-tailed proportion of null >= observed absolute difference)
+mean(abs(null) >= abs(obs))
+# Output: 0.052
